@@ -64,7 +64,7 @@ class NLPApp:
         self.password_input = Entry(self.root, width=35, show='*')
         self.password_input.pack(pady=(5, 10), ipady=4)
 
-        register_btn = Button(self.root, text='Register', width=30, height=2)
+        register_btn = Button(self.root, text='Register', width=30, height=2, command=self.perform_registration)
         register_btn.pack(pady=(10, 10))
 
         label3 = Label(self.root, text='Already a member?', bg='#2b4370',fg='white')
