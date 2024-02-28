@@ -37,4 +37,10 @@ class NLPApp:
 
         redirect_btn = Button(self.root, text='Register Now')
         redirect_btn.pack(pady=(10, 10))
+
+    def clear(self):
+        # clear the existing gui
+        for i in self.root.pack_slaves():
+            i.destroy()
+
 nlp = NLPApp()
