@@ -1,8 +1,13 @@
 from tkinter import *
-
+from db import Database
+from tkinter import messagebox
 class NLPApp:
 
     def __init__(self):
+
+        # create db object
+        self.dbo = Database()
+
         self.root = Tk()
         self.root.title('NLP Application')
         self.root.iconbitmap('resources/favicon.ico')
@@ -30,7 +35,7 @@ class NLPApp:
         self.password_input = Entry(self.root, width=35,show='*')
         self.password_input.pack(pady=(5, 10), ipady=4)
 
-        login_btn = Button(self.root,text='Login',width=30,height=2)
+        login_btn = Button(self.root,text='Login',width=30,height=2, command=self.perform_login)
         login_btn.pack(pady=(10,10))
 
         label3 = Label(self.root, text='Not a member?', bg='#2b4370',fg='white')
@@ -78,7 +83,25 @@ class NLPApp:
         name = self.name_input.get()
         email = self.email_input.get()
         password = self.password_input.get()
+        response = self.dbo.add_data(name, email, password)
 
+        if response:
+            messagebox.showinfo('Success','Registration successful. You can login now')
+        else:
+            messagebox.showerror('Error','Email already exists')
+
+    def perform_login(self):
+
+        email = self.email_input.get()
+        password = self.password_input.get()
+
+        response = self.dbo.search(email, password)
+
+        if response:
+            messagebox.showinfo('success','Login successful')
+            self.home_gui()
+        else:
+            messagebox.showerror('error','Incorrect email/password')
 
 
     def clear(self):
