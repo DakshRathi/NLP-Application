@@ -14,7 +14,7 @@ class NLPApp:
     def login_gui(self):
         self.clear()
 
-        heading = Label(self.root,text='NLPApp', bg='#2b4370',fg='white')
+        heading = Label(self.root,text='NLP App', bg='#2b4370',fg='white')
         heading.pack(pady=(30,30))
         heading.configure(font=('verdana',24,'bold'))
 
@@ -42,7 +42,7 @@ class NLPApp:
     def register_gui(self):
         self.clear()
 
-        heading = Label(self.root, text='NLPApp', bg='#2b4370',fg='white')
+        heading = Label(self.root, text='NLP App', bg='#2b4370',fg='white')
         heading.pack(pady=(30, 30))
         heading.configure(font=('verdana', 24, 'bold'))
 
@@ -72,6 +72,14 @@ class NLPApp:
 
         redirect_btn = Button(self.root, text='Login Now', command=self.login_gui)
         redirect_btn.pack(pady=(10, 10))
+
+    def perform_registration(self):
+        # fetch data from the gui
+        name = self.name_input.get()
+        email = self.email_input.get()
+        password = self.password_input.get()
+
+
 
     def clear(self):
         # clear the existing gui
