@@ -158,19 +158,93 @@ class NLPApp:
         result = self.apio.sentiment_analysis(text)
 
         txt = ''
-        for i in result['sentiment']:
-            txt = txt + i + ' -> ' + str(result['sentiment'][i]) + '\n'
+        for sentiment_category, score in result['sentiment'].items():
+            txt += f"{sentiment_category} -> {str(score)}\n"
 
         print(txt)
         self.sentiment_result['text'] = txt
-
-
-
+    
     def ner_gui(self):
         self.clear()
 
+        heading = Label(self.root, text='NLP App', bg='#2b4370',fg='white')
+        heading.pack(pady=(30, 30))
+        heading.configure(font=('verdana', 24, 'bold'))
+
+        heading2 = Label(self.root, text='Named Entity Recognition', bg='#2b4370', fg='white')
+        heading2.pack(pady=(10, 20))
+        heading2.configure(font=('verdana', 20))
+
+        label1 = Label(self.root, text='Enter the text', bg='#2b4370', fg='white')
+        label1.pack(pady=(10, 10))
+
+        self.ner_input = Entry(self.root, width=50)
+        self.ner_input.pack(pady=(5, 10), ipady=4)
+
+        ner_btn = Button(self.root, text='Analyze NER', command=self.do_ner)
+        ner_btn.pack(pady=(10, 10))
+
+        self.ner_result = Label(self.root, text='', bg='#2b4370', fg='white')
+        self.ner_result.pack(pady=(10, 10))
+        self.ner_result.configure(font=('verdana', 16))
+
+        go_back_btn = Button(self.root, text='Go Back', command=self.home_gui)
+        go_back_btn.pack(pady=(10, 10))
+
+    def do_ner(self):
+
+        text = self.ner_input.get()
+        result = self.apio.ner(text)
+
+        txt = ''
+        count = 1
+        for i in result['entities']:
+            txt += f'{str(count)}\n'
+            count += 1
+            for ner_category,name in i.items():
+                txt += f"{ner_category} -> {str(name)}\n"
+
+        print(txt)
+        self.ner_result['text'] = txt
+
     def emotion_gui(self):
         self.clear()
+
+        heading = Label(self.root, text='NLP App', bg='#2b4370',fg='white')
+        heading.pack(pady=(30, 30))
+        heading.configure(font=('verdana', 24, 'bold'))
+
+        heading2 = Label(self.root, text='Emotion Analysis', bg='#2b4370', fg='white')
+        heading2.pack(pady=(10, 20))
+        heading2.configure(font=('verdana', 20))
+
+        label1 = Label(self.root, text='Enter the text', bg='#2b4370', fg='white')
+        label1.pack(pady=(10, 10))
+
+        self.emo_input = Entry(self.root, width=50)
+        self.emo_input.pack(pady=(5, 10), ipady=4)
+
+        emo_btn = Button(self.root, text='Analyze Emotion', command=self.do_emo)
+        emo_btn.pack(pady=(10, 10))
+
+        self.emo_result = Label(self.root, text='', bg='#2b4370', fg='white')
+        self.emo_result.pack(pady=(10, 10))
+        self.emo_result.configure(font=('verdana', 16))
+
+        go_back_btn = Button(self.root, text='Go Back', command=self.home_gui)
+        go_back_btn.pack(pady=(10, 10))
+
+    def do_emo(self):
+
+        text = self.emo_input.get()
+        result = self.apio.emotion_prediction(text)
+
+        txt = ''
+        for emotion_category, score in result['emotion'].items():
+            txt += f"{emotion_category} -> {str(score)}\n"
+
+        print(txt)
+        self.emo_result['text'] = txt
 
     def clear(self):
         # clear the existing gui
