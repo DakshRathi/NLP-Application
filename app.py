@@ -1,12 +1,15 @@
 from tkinter import *
 from db import Database
 from tkinter import messagebox
+from api import API
+
 class NLPApp:
 
     def __init__(self):
 
         # create db object
         self.dbo = Database()
+        self.apio = API()
 
         self.root = Tk()
         self.root.title('NLP Application')
@@ -104,7 +107,6 @@ class NLPApp:
             messagebox.showerror('error','Incorrect email/password')
 
     def home_gui(self):
-
         self.clear()
 
         heading = Label(self.root, text='NLP App', bg='#2b4370',fg='white')
@@ -125,6 +127,44 @@ class NLPApp:
 
     def sentiment_gui(self):
         self.clear()
+
+        heading = Label(self.root, text='NLP App', bg='#2b4370',fg='white')
+        heading.pack(pady=(30, 30))
+        heading.configure(font=('verdana', 24, 'bold'))
+
+        heading2 = Label(self.root, text='Sentiment Analysis', bg='#2b4370', fg='white')
+        heading2.pack(pady=(10, 20))
+        heading2.configure(font=('verdana', 20))
+
+        label1 = Label(self.root, text='Enter the text', bg='#2b4370', fg='white')
+        label1.pack(pady=(10, 10))
+
+        self.sentiment_input = Entry(self.root, width=50)
+        self.sentiment_input.pack(pady=(5, 10), ipady=4)
+
+        sentiment_btn = Button(self.root, text='Analyze Sentiment', command=self.do_sentiment_analysis)
+        sentiment_btn.pack(pady=(10, 10))
+
+        self.sentiment_result = Label(self.root, text='', bg='#2b4370', fg='white')
+        self.sentiment_result.pack(pady=(10, 10))
+        self.sentiment_result.configure(font=('verdana', 16))
+
+        go_back_btn = Button(self.root, text='Go Back', command=self.home_gui)
+        go_back_btn.pack(pady=(10, 10))
+
+    def do_sentiment_analysis(self):
+
+        text = self.sentiment_input.get()
+        result = self.apio.sentiment_analysis(text)
+
+        txt = ''
+        for i in result['sentiment']:
+            txt = txt + i + ' -> ' + str(result['sentiment'][i]) + '\n'
+
+        print(txt)
+        self.sentiment_result['text'] = txt
+
+
 
     def ner_gui(self):
         self.clear()
